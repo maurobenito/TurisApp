@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- IMAGEN PRINCIPAL -->
+        <ImageView
+            android:id="@+id/imgPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/placeholder" />
+
+        <!-- GALERÍA (IGUAL QUE DETALLE) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImagenes"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="never" />
+
+        <Button
+            android:id="@+id/btnAgregarImagenes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agregar imágenes" />
+
+        <!-- CAMPOS -->
+        <EditText
+            android:id="@+id/etTitulo"
+            android:hint="Título"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:hint="Descripción"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etDireccion"
+            android:hint="Dirección"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etPrecio"
+            android:hint="Precio por día"
+            android:inputType="numberDecimal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etHuespedes"
+            android:hint="Cantidad de huéspedes"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etHabitaciones"
+            android:hint="Habitaciones"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/swPileta"
+            android:text="Pileta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/swCochera"
+            android:text="Cochera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Switch
+            android:id="@+id/swDisponible"
+            android:text="Disponible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar cambios" />
+
+    </LinearLayout>
+</ScrollView>

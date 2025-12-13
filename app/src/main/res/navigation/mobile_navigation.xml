@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/loginFragment">
+
+    <!-- 🟦 LOGIN -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.turisapp.ui.login.LoginFragment"
+        android:label="Iniciar Sesión"
+        tools:layout="@layout/fragment_login">
+
+        <action
+            android:id="@+id/action_loginFragment_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_registroFragment"
+            app:destination="@id/registroFragment" />
+    </fragment>
+
+    <!-- 🟦 REGISTRO -->
+    <fragment
+        android:id="@+id/registroFragment"
+        android:name="com.example.turisapp.ui.registro.RegistroFragment"
+        android:label="Registrar Usuario"
+        tools:layout="@layout/fragment_registro" />
+
+    <!-- 🟩 PERFIL -->
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.turisapp.ui.perfil.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+    <!-- 🟩 ALOJAMIENTOS -->
+    <fragment
+        android:id="@+id/alojamientosFragment"
+        android:name="com.example.turisapp.ui.alojamiento.GalleryFragment"
+        android:label="Alojamientos"
+        tools:layout="@layout/fragment_gallery">
+
+        <action
+            android:id="@+id/action_alojamientosFragment_to_detalleAlojamientoFragment"
+            app:destination="@id/detalleAlojamientoFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_crear_alojamiento"
+        android:name="com.example.turisapp.ui.alojamiento.CrearAlojamientoFragment"
+        android:label="Crear Alojamiento"
+        tools:layout="@layout/fragment_crear_alojamiento" />
+
+
+    <!-- HOME (menú lateral) -->
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.turisapp.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <!-- SLIDESHOW -->
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.turisapp.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <!-- DETALLE ALOJAMIENTO -->
+    <fragment
+        android:id="@+id/detalleAlojamientoFragment"
+        android:name="com.example.turisapp.ui.alojamiento.DetalleAlojamientoFragment"
+        android:label="DetalleAlojamientoFragment">
+
+        <action
+            android:id="@+id/action_detalleAlojamientoFragment_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
+
+        <action
+            android:id="@+id/action_detalleAlojamientoFragment_to_reservaFragment"
+            app:destination="@id/reservaFragment" />
+        <action
+            android:id="@+id/action_detalleAlojamientoFragment_to_editarAlojamientoFragment"
+            app:destination="@id/editarAlojamientoFragment" />
+        <action
+            android:id="@+id/action_detalleAlojamientoFragment_to_alojamientosFragment2"
+            app:destination="@id/alojamientosFragment" />
+    </fragment>
+
+    <!-- RESERVA -->
+    <fragment
+        android:id="@+id/reservaFragment"
+        android:name="com.example.turisapp.ui.reserva.ReservaFragment"
+        android:label="ReservaFragment">
+
+        <action
+            android:id="@+id/action_reservaFragment_to_detalleAlojamientoFragment"
+            app:destination="@id/detalleAlojamientoFragment" />
+
+        <action
+            android:id="@+id/action_reservaFragment_to_listarReservaFragment"
+            app:destination="@id/listarReservaFragment" />
+    </fragment>
+
+    <!-- LISTAR RESERVAS (ACCESO INTERNO) -->
+    <fragment
+        android:id="@+id/listarReservaFragment"
+        android:name="com.example.turisapp.ui.reserva.ListarReservaFragment"
+        android:label="ListarReservaFragment">
+
+        <action
+            android:id="@+id/action_listarReservaFragment_to_reservaFragment"
+            app:destination="@id/reservaFragment" />
+    </fragment>
+
+    <!-- ⭐ MIS RESERVAS (ALIAS PARA EL DRAWER) -->
+    <fragment
+        android:id="@+id/nav_reservas"
+        android:name="com.example.turisapp.ui.reserva.ListarReservaFragment"
+        android:label="Mis Reservas"
+        tools:layout="@layout/fragment_listar_reserva" />
+
+    <fragment
+        android:id="@+id/nav_localidad"
+        android:name="com.example.turisapp.ui.localidad.ListarLocalidadFragment"
+        android:label="Localidades"
+        tools:layout="@layout/fragment_listar_localidad" />
+
+    <fragment
+        android:id="@+id/nav_pagos"
+        android:name="com.example.turisapp.ui.pago.PagoFragment"
+        android:label="Pagos"
+        tools:layout="@layout/fragment_pago" />
+    <fragment
+        android:id="@+id/editarAlojamientoFragment"
+        android:name="com.example.turisapp.ui.alojamiento.EditarAlojamientoFragment"
+        android:label="EditarAlojamientoFragment" >
+        <action
+            android:id="@+id/action_editarAlojamientoFragment_to_detalleAlojamientoFragment"
+            app:destination="@id/detalleAlojamientoFragment" />
+        <action
+            android:id="@+id/action_editarAlojamientoFragment_to_detalleAlojamientoFragment2"
+            app:destination="@id/detalleAlojamientoFragment" />
+    </fragment>
+
+
+</navigation>

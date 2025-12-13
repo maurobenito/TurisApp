@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:spacing="10dp">
+
+        <!-- TÍTULO -->
+        <EditText
+            android:id="@+id/etTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <!-- TIPO DE ALOJAMIENTO -->
+        <EditText
+            android:id="@+id/etTipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tipo (Cabaña, Casa, Salón...)"
+            android:inputType="text"
+            android:padding="10dp" />
+
+        <!-- DESCRIPCIÓN -->
+        <EditText
+            android:id="@+id/etDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:padding="10dp" />
+
+        <!-- DIRECCIÓN -->
+        <EditText
+            android:id="@+id/etDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:padding="10dp" />
+
+        <!-- PRECIO POR DÍA -->
+        <EditText
+            android:id="@+id/etPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Precio por día"
+            android:inputType="numberDecimal"
+            android:padding="10dp" />
+
+        <!-- CANTIDAD DE HUÉSPEDES -->
+        <EditText
+            android:id="@+id/etHuespedes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cantidad de huéspedes"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <!-- HABITACIONES -->
+        <EditText
+            android:id="@+id/etHabitaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Habitaciones"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <!-- SWITCHES DE SERVICIOS -->
+        <Switch
+            android:id="@+id/swPileta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pileta disponible" />
+
+        <Switch
+            android:id="@+id/swCochera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cochera disponible" />
+
+        <!-- LOCALIDAD -->
+        <EditText
+            android:id="@+id/etLocalidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID Localidad"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <!-- PROPIETARIO -->
+        <EditText
+            android:id="@+id/etPropietario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID Propietario"
+            android:inputType="number"
+            android:padding="10dp" />
+
+        <!-- BOTÓN SELECCIONAR IMÁGENES -->
+        <Button
+            android:id="@+id/btnSeleccionarImagenes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccionar imágenes"
+            android:padding="12dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white" />
+
+        <!-- BOTÓN CREAR ALOJAMIENTO -->
+        <Button
+            android:id="@+id/btnCrearAlojamiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear alojamiento"
+            android:padding="12dp"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:textColor="@android:color/white" />
+
+        <!-- MENSAJE DEL VIEWMODEL -->
+        <TextView
+            android:id="@+id/tvMensaje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="@android:color/holo_green_dark"
+            android:paddingTop="10dp"
+            android:paddingBottom="30dp" />
+
+    </LinearLayout>
+</ScrollView>

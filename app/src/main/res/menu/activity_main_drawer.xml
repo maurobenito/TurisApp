@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/alojamientosFragment"
+        android:icon="@drawable/ic_menu_gallery"
+        android:title="Alojamientos" />
+
+    <item
+        android:id="@+id/nav_crear_alojamiento"
+        android:title="Crear Alojamiento"
+        android:icon="@drawable/ic_add_home" />
+
+
+    <item
+        android:id="@+id/perfilFragment"
+        android:icon="@drawable/ic_menu_person"
+        android:title="Perfil" />
+
+    <item
+        android:id="@+id/registroFragment"
+        android:icon="@drawable/ic_menu_registro"
+        android:title="Registro" />
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_menu_home"
+        android:title="Home" />
+
+    <item
+        android:id="@+id/nav_reservas"
+        android:title="Mis Reservas"
+        android:icon="@drawable/ic_reservas" />
+
+
+
+    <item
+        android:id="@+id/nav_localidad"
+        android:icon="@drawable/ic_location"
+        android:title="Localidad" />
+
+    <item
+        android:id="@+id/nav_pagos"
+        android:title="Pagos"
+        android:icon="@drawable/ic_money"/>
+
+
+
+</menu>
