@@ -202,11 +202,6 @@ public interface ApiService {
 
 
 
-    // =====================================================
-    // LOCALIDADES
-    // =====================================================
-
-    // CREAR LOCALIDAD
     @FormUrlEncoded
     @POST("api/localidades/crear.php")
     Call<Localidad> crearLocalidad(
@@ -225,15 +220,12 @@ public interface ApiService {
     );
 
 
-    // ELIMINAR LOCALIDAD
     @FormUrlEncoded
     @POST("api/localidades/eliminar.php")
     Call<String> eliminarLocalidad(
             @Field("id") int id
     );
-    // =====================================================
-    // RESERVAS
-    // =====================================================
+
 
 
     @FormUrlEncoded
@@ -263,9 +255,6 @@ public interface ApiService {
     );
 
 
-    // =====================================================
-    // PAGOS
-    // =====================================================
     @POST("api/pago/crear.php")
     Call<PagoResponse> crearPago(
             @Header("Authorization") String token,

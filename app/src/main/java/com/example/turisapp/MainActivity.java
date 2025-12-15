@@ -36,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        // -----------------------------
-        // NAVIGATION
-        // -----------------------------
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.alojamientosFragment,
                 R.id.nav_crear_alojamiento,
@@ -57,10 +55,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        // -----------------------------
-        // 🔥 FIX DEFINITIVO
-        // Reaplicar menú en cada cambio de destino
-        // -----------------------------
+
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
 
             SharedPreferences sp = getSharedPreferences("datos", MODE_PRIVATE);
@@ -69,9 +64,7 @@ public class MainActivity extends AppCompatActivity {
             MenuRoleConfigurator.aplicar(navigationView.getMenu(), rol);
         });
 
-        // -----------------------------
-        // HEADER
-        // -----------------------------
+
         cargarHeaderUsuario(navigationView);
     }
     @Override
@@ -84,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    // =====================================================
-    // HEADER USUARIO
-    // =====================================================
+
     private void cargarHeaderUsuario(NavigationView navigationView) {
 
         View headerView = navigationView.getHeaderView(0);
@@ -116,9 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 .into(ivAvatar);
     }
 
-    // =====================================================
-    // REFRESH AUTOMÁTICO (login / logout)
-    // =====================================================
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -132,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
         cargarHeaderUsuario(navView);
     }
 
-    // =====================================================
-    // ACTION BAR
-    // =====================================================
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
