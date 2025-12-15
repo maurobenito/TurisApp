@@ -1,3 +1,4 @@
+
 package com.example.turisapp.ui.alojamiento;
 
 import android.app.Application;
@@ -115,7 +116,7 @@ public class DetalleAlojamientoViewModel extends AndroidViewModel {
                         String ruta = lista.get(0).getRutaImagen();
                         Log.d(TAG, "Imagen principal = " + ruta);
 
-                        imagenPrincipal.setValue(null);
+                        imagenPrincipal.setValue(ruta);
 
                         ImagenMiniAdapter adapter =
                                 new ImagenMiniAdapter(lista,
@@ -163,7 +164,7 @@ public class DetalleAlojamientoViewModel extends AndroidViewModel {
         boolean esCliente = "Cliente".equalsIgnoreCase(rol);
 
         int action = esCliente
-                ? R.id.action_detalleAlojamientoFragment_to_reservaFragment
+                ? R.id.reservaFragment
                 : R.id.action_detalleAlojamientoFragment_to_editarAlojamientoFragment;
 
         Log.d(TAG, "Navegando actionId=" + action);
@@ -202,5 +203,7 @@ public class DetalleAlojamientoViewModel extends AndroidViewModel {
                 Log.e(TAG, "Error localidades", t);
             }
         });
+
     }
+
 }

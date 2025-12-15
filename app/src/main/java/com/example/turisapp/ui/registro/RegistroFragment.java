@@ -38,7 +38,7 @@ public class RegistroFragment extends Fragment {
     }
 
     private void configurarSpinners() {
-        String[] roles = {"Cliente", "Propietario", "Administrador"};
+        String[] roles = {"Cliente", "Propietario"};
         ArrayAdapter<String> adapterRol = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/loginFragment">
+    app:startDestination="@+id/nav_home">
 
     <!-- 🟦 LOGIN -->
     <fragment
@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_loginFragment_to_registroFragment"
             app:destination="@id/registroFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_alojamientosFragment2"
+            app:destination="@id/alojamientosFragment" />
     </fragment>
 
     <!-- 🟦 REGISTRO -->
@@ -61,47 +64,32 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <!-- SLIDESHOW -->
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.turisapp.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+
 
     <!-- DETALLE ALOJAMIENTO -->
     <fragment
         android:id="@+id/detalleAlojamientoFragment"
         android:name="com.example.turisapp.ui.alojamiento.DetalleAlojamientoFragment"
-        android:label="DetalleAlojamientoFragment">
+        android:label="Descripcion del alojamiento">
 
         <action
-            android:id="@+id/action_detalleAlojamientoFragment_to_alojamientosFragment"
+            android:id="@+id/na"
             app:destination="@id/alojamientosFragment" />
 
-        <action
-            android:id="@+id/action_detalleAlojamientoFragment_to_reservaFragment"
-            app:destination="@id/reservaFragment" />
         <action
             android:id="@+id/action_detalleAlojamientoFragment_to_editarAlojamientoFragment"
             app:destination="@id/editarAlojamientoFragment" />
-        <action
-            android:id="@+id/action_detalleAlojamientoFragment_to_alojamientosFragment2"
-            app:destination="@id/alojamientosFragment" />
+
     </fragment>
 
     <!-- RESERVA -->
     <fragment
         android:id="@+id/reservaFragment"
         android:name="com.example.turisapp.ui.reserva.ReservaFragment"
-        android:label="ReservaFragment">
-
+        android:label="Crear nueva reserva">
         <action
-            android:id="@+id/action_reservaFragment_to_detalleAlojamientoFragment"
+            android:id="@+id/action_reservaFragment_to_alojamientoFragment"
             app:destination="@id/detalleAlojamientoFragment" />
-
-        <action
-            android:id="@+id/action_reservaFragment_to_listarReservaFragment"
-            app:destination="@id/listarReservaFragment" />
     </fragment>
 
     <!-- LISTAR RESERVAS (ACCESO INTERNO) -->
@@ -113,37 +101,74 @@
         <action
             android:id="@+id/action_listarReservaFragment_to_reservaFragment"
             app:destination="@id/reservaFragment" />
+        <action
+            android:id="@+id/action_listarReservaFragment_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
     </fragment>
 
     <!-- ⭐ MIS RESERVAS (ALIAS PARA EL DRAWER) -->
     <fragment
         android:id="@+id/nav_reservas"
         android:name="com.example.turisapp.ui.reserva.ListarReservaFragment"
-        android:label="Mis Reservas"
+        android:label="Reservas"
         tools:layout="@layout/fragment_listar_reserva" />
 
     <fragment
         android:id="@+id/nav_localidad"
         android:name="com.example.turisapp.ui.localidad.ListarLocalidadFragment"
         android:label="Localidades"
-        tools:layout="@layout/fragment_listar_localidad" />
+        tools:layout="@layout/fragment_listar_localidad" >
+        <action
+            android:id="@+id/action_nav_localidad_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_pagos"
         android:name="com.example.turisapp.ui.pago.PagoFragment"
         android:label="Pagos"
-        tools:layout="@layout/fragment_pago" />
+        tools:layout="@layout/fragment_pago" >
+        <action
+            android:id="@+id/action_nav_pagos_to_alojamientosFragment2"
+            app:destination="@id/alojamientosFragment" />
+    </fragment>
     <fragment
         android:id="@+id/editarAlojamientoFragment"
         android:name="com.example.turisapp.ui.alojamiento.EditarAlojamientoFragment"
-        android:label="EditarAlojamientoFragment" >
+        android:label="Editar Alojamiento">
         <action
-            android:id="@+id/action_editarAlojamientoFragment_to_detalleAlojamientoFragment"
-            app:destination="@id/detalleAlojamientoFragment" />
-        <action
-            android:id="@+id/action_editarAlojamientoFragment_to_detalleAlojamientoFragment2"
-            app:destination="@id/detalleAlojamientoFragment" />
+            android:id="@+id/action_editarAlojamientoFragment_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_notificacion"
+        android:name="com.example.turisapp.ui.notificacion.NotificacionFragment"
+        android:label="Notificaciones"
+        tools:layout="@layout/fragment_notificacion" />
 
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.turisapp.ui.slideshow.SlideshowFragment"
+        android:label="Slideshow" >
+        <action
+            android:id="@+id/action_nav_slideshow_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
+    </fragment>
+
+    <!-- USUARIOS (ADMIN) -->
+    <fragment
+        android:id="@+id/nav_usuarios"
+        android:name="com.example.turisapp.ui.adminusuarios.AdminUsuariosFragment"
+        android:label="Usuarios" >
+        <action
+            android:id="@+id/action_nav_usuarios_to_alojamientosFragment"
+            app:destination="@id/alojamientosFragment" />
+    </fragment>
+
+    <!-- SALIR -->
+    <fragment
+        android:id="@+id/nav_salir"
+        android:name="com.example.turisapp.ui.slideshow.SlideshowFragment"
+        android:label="Salir" />
 </navigation>

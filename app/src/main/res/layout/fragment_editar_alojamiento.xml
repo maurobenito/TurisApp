@@ -1,99 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="12dp"
+    android:paddingBottom="72dp"
+    android:clipToPadding="false">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <!-- IMAGEN PRINCIPAL -->
         <ImageView
             android:id="@+id/imgPrincipal"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
             android:src="@drawable/placeholder" />
 
-        <!-- GALERÍA (IGUAL QUE DETALLE) -->
+        <!-- GALERÍA -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImagenes"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="6dp"
             android:overScrollMode="never" />
 
         <Button
             android:id="@+id/btnAgregarImagenes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="Agregar imágenes" />
 
         <!-- CAMPOS -->
         <EditText
             android:id="@+id/etTitulo"
-            android:hint="Título"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Título"
+            android:layout_marginTop="6dp" />
 
         <EditText
             android:id="@+id/etDescripcion"
-            android:hint="Descripción"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Descripción"
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/etDireccion"
-            android:hint="Dirección"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/etPrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Precio por día"
             android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/etHuespedes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Cantidad de huéspedes"
             android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="4dp" />
 
         <EditText
             android:id="@+id/etHabitaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="Habitaciones"
             android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="4dp" />
 
+        <!-- SWITCHES -->
         <Switch
             android:id="@+id/swPileta"
-            android:text="Pileta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Pileta"
+            android:layout_marginTop="6dp" />
 
         <Switch
             android:id="@+id/swCochera"
-            android:text="Cochera"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Cochera"
+            android:layout_marginTop="2dp" />
 
         <Switch
             android:id="@+id/swDisponible"
-            android:text="Disponible"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Disponible"
+            android:layout_marginTop="2dp" />
 
+        <!-- BOTONES -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Guardar cambios" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEliminarAlojamiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar alojamiento"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="8dp"
+            app:backgroundTint="#D32F2F" />
+
 
     </LinearLayout>
 </ScrollView>

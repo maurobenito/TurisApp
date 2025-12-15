@@ -21,55 +21,75 @@ import com.example.turisapp.request.ApiClient;
 
 import java.util.List;
 
-public class AlojamientoAdapter extends RecyclerView.Adapter<AlojamientoAdapter.ViewHolderAlojamiento> {
+public class AlojamientoAdapter
+        extends RecyclerView.Adapter<AlojamientoAdapter.ViewHolderAlojamiento> {
 
     private List<Alojamiento> lista;
-    private Context context;
     private LayoutInflater inflater;
 
-    public AlojamientoAdapter(List<Alojamiento> lista, Context context, LayoutInflater inflater) {
+    public AlojamientoAdapter(List<Alojamiento> lista, Context context) {
         this.lista = lista;
-        this.context = context;
-        this.inflater = inflater;
+        this.inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
-    public ViewHolderAlojamiento onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = inflater.inflate(R.layout.item_alojamiento, parent, false);
-        return new ViewHolderAlojamiento(itemView);
+    public ViewHolderAlojamiento onCreateViewHolder(
+            @NonNull ViewGroup parent, int viewType) {
+
+        View view = inflater.inflate(R.layout.item_alojamiento, parent, false);
+        return new ViewHolderAlojamiento(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderAlojamiento holder, int position) {
+    public void onBindViewHolder(
+            @NonNull ViewHolderAlojamiento holder, int position) {
 
         Alojamiento aloj = lista.get(position);
 
         holder.titulo.setText(aloj.getTitulo());
         holder.precio.setText("$ " + aloj.getPrecioPorDia());
 
-        Glide.with(context)
-                .load(ApiClient.IMAGE_URL + aloj.getImagenPrincipal())
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.error_image)
-                .into(holder.imagen);
+        // -------------------------------
+        // IMAGEN (CAMBIO MÍNIMO)
+        // -------------------------------
+        String img = aloj.getImagenPrincipal();
 
+        // ✅ solo esto es CLAVE
+        Glide.with(holder.imagen).clear(holder.imagen);
 
+        if (img == null || img.isEmpty()) {
+            holder.imagen.setImageResource(R.drawable.placeholder);
+        } else {
+            Glide.with(holder.imagen)
+                    .load(ApiClient.IMAGE_URL + img)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error_image)
+                    .dontAnimate()
+                    .into(holder.imagen);
+        }
+
+        // -------------------------------
+        // CLICK → DETALLE (IGUAL QUE ANTES)
+        // -------------------------------
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putSerializable("alojamiento", aloj);
 
             NavController navController = Navigation.findNavController(v);
-            navController.navigate(R.id.detalleAlojamientoFragment, bundle);
+            navController.navigate(
+                    R.id.detalleAlojamientoFragment,
+                    bundle
+            );
         });
     }
 
     @Override
     public int getItemCount() {
-        return lista.size();
+        return lista != null ? lista.size() : 0;
     }
 
-    // 🔥 ACÁ ESTÁ EL VIEW HOLDER (dentro de la clase)
+    // VIEW HOLDER (SIN CAMBIOS)
     public static class ViewHolderAlojamiento extends RecyclerView.ViewHolder {
 
         TextView titulo, precio;

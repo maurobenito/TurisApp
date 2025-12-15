@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.turisapp.modelo.Alojamiento;
+import com.example.turisapp.modelo.GenericResponse;
 import com.example.turisapp.modelo.ImagenAlojamiento;
 import com.example.turisapp.request.ApiClient;
 import com.example.turisapp.request.ApiService;
@@ -32,6 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditarAlojamientoViewModel extends AndroidViewModel {
+    private static final String TAG = "DetalleAlojamientoViewModel";
 
     private final MutableLiveData<Alojamiento> alojamiento = new MutableLiveData<>();
     private final MutableLiveData<String> mensaje = new MutableLiveData<>();
@@ -39,6 +42,10 @@ public class EditarAlojamientoViewModel extends AndroidViewModel {
     private final MutableLiveData<String> imagenPrincipal = new MutableLiveData<>();
     private final MutableLiveData<RecyclerView.Adapter<?>> imagenes = new MutableLiveData<>();
     private final MutableLiveData<ImagenAlojamiento> imagenAEliminar = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> mostrarEdicion = new MutableLiveData<>();
+    public LiveData<Boolean> getMostrarEdicion() {
+        return mostrarEdicion;
+    }
 
     private final List<Uri> imagenesPendientes = new ArrayList<>();
 
@@ -322,4 +329,42 @@ public class EditarAlojamientoViewModel extends AndroidViewModel {
         }
         return null;
     }
-}
+    // =========================
+// ELIMINAR ALOJAMIENTO
+// =========================
+    public void eliminarAlojamiento() {
+
+        Alojamiento a = alojamiento.getValue();
+        if (a == null) {
+            mensaje.setValue("Alojamiento no válido");
+            return;
+        }
+
+        ApiService api = ApiClient.getApiService();
+        String token = ApiClient.leerToken(getApplication());
+        String auth = token != null ? "Bearer " + token : "";
+
+        api.eliminarAlojamiento(auth, a.getId())
+                .enqueue(new Callback<Void>() {
+
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+
+                        if (response.isSuccessful()) {
+                            mensaje.setValue("Alojamiento eliminado");
+                            Log.d(TAG, "Alojamiento eliminado ID=" + a.getId());
+                        } else {
+                            mensaje.setValue("No se pudo eliminar el alojamiento");
+                            Log.e(TAG, "Error eliminar: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        mensaje.setValue("Error de conexión");
+                        Log.e(TAG, "Failure eliminar", t);
+                    }
+                });
+
+    }
+    }

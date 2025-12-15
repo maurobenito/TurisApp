@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Reserva {
 
+    // =========================
+    // DATOS BASE
+    // =========================
     @SerializedName("Id")
     private int id;
 
@@ -28,26 +31,50 @@ public class Reserva {
     @SerializedName("FechaCreacion")
     private String fechaCreacion;
 
-    public Reserva(int id) {
-        this.id = id;
-    }
-    @SerializedName("Alojamiento")
-    private Alojamiento alojamiento;
-    @SerializedName("AlojamientoNombre")
-    private String alojamientoNombre;
-
+    // =========================
+    // DATOS DE ALOJAMIENTO
+    // =========================
     @SerializedName("AlojamientoTitulo")
     private String alojamientoTitulo;
 
-    public String getAlojamientoTitulo() { return alojamientoTitulo; }
+    @SerializedName("LocalidadNombre")
+    private String localidadNombre;
 
-    public String getAlojamientoNombre() { return alojamientoNombre; }
+    // (opcional para detalle)
+    @SerializedName("Alojamiento")
+    private Alojamiento alojamiento;
 
-    public Alojamiento getAlojamiento() { return alojamiento; }
-    public void setAlojamiento(Alojamiento a) { this.alojamiento = a; }
+    // =========================
+    // DATOS DE PERSONAS
+    // =========================
+    @SerializedName("ClienteNombre")
+    private String clienteNombre;
 
+    @SerializedName("ClienteApellido")
+    private String clienteApellido;
 
-    public Reserva(int id, int clienteId, int alojamientoId, String fechaInicio, String fechaFin, double montoTotal, String estado, String fechaCreacion) {
+    @SerializedName("PropietarioNombre")
+    private String propietarioNombre;
+
+    @SerializedName("PropietarioApellido")
+    private String propietarioApellido;
+
+    // =========================
+    // CONSTRUCTORES
+    // =========================
+    public Reserva(int id) {
+        this.id = id;
+    }
+
+    public Reserva(int id,
+                   int clienteId,
+                   int alojamientoId,
+                   String fechaInicio,
+                   String fechaFin,
+                   double montoTotal,
+                   String estado,
+                   String fechaCreacion) {
+
         this.id = id;
         this.clienteId = clienteId;
         this.alojamientoId = alojamientoId;
@@ -58,69 +85,70 @@ public class Reserva {
         this.fechaCreacion = fechaCreacion;
     }
 
+    // =========================
+    // GETTERS BASE
+    // =========================
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getClienteId() {
         return clienteId;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
-    }
-
     public int getAlojamientoId() {
         return alojamientoId;
-    }
-
-    public void setAlojamientoId(int alojamientoId) {
-        this.alojamientoId = alojamientoId;
     }
 
     public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(String fechaInicio) {
-        this.fechaInicio = fechaInicio;
-    }
-
     public String getFechaFin() {
         return fechaFin;
-    }
-
-    public void setFechaFin(String fechaFin) {
-        this.fechaFin = fechaFin;
     }
 
     public double getMontoTotal() {
         return montoTotal;
     }
 
-    public void setMontoTotal(double montoTotal) {
-        this.montoTotal = montoTotal;
-    }
-
     public String getEstado() {
         return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
     }
 
     public String getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(String fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    // =========================
+    // GETTERS UI (CLAVE)
+    // =========================
+    public String getAlojamientoTitulo() {
+        return alojamientoTitulo != null ? alojamientoTitulo : "";
     }
 
-    // Getters y setters...
+    public String getLocalidadNombre() {
+        return localidadNombre != null ? localidadNombre : "";
+    }
+
+    public String getNombreCliente() {
+        if (clienteNombre == null) return "";
+        return clienteNombre + " " + (clienteApellido != null ? clienteApellido : "");
+    }
+
+    public String getNombrePropietario() {
+        if (propietarioNombre == null) return "";
+        return propietarioNombre + " " + (propietarioApellido != null ? propietarioApellido : "");
+    }
+
+    // =========================
+    // ALOJAMIENTO COMPLETO (opcional)
+    // =========================
+    public Alojamiento getAlojamiento() {
+        return alojamiento;
+    }
+
+    public void setAlojamiento(Alojamiento alojamiento) {
+        this.alojamiento = alojamiento;
+    }
 }

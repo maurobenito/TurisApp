@@ -6,14 +6,36 @@ import androidx.lifecycle.ViewModel;
 
 public class HomeViewModel extends ViewModel {
 
-    private final MutableLiveData<String> mText;
+    // -----------------------------
+    // EVENTOS DE NAVEGACIÓN
+    // -----------------------------
+    private final MutableLiveData<Evento> evento = new MutableLiveData<>();
 
-    public HomeViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+    public LiveData<Evento> getEvento() {
+        return evento;
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    // -----------------------------
+    // ACCIONES
+    // -----------------------------
+    public void irAlojamientos() {
+        evento.setValue(Evento.ALOJAMIENTOS);
+    }
+
+    public void irLogin() {
+        evento.setValue(Evento.LOGIN);
+    }
+
+    public void irRegistro() {
+        evento.setValue(Evento.REGISTRO);
+    }
+
+    // -----------------------------
+    // ENUM DE EVENTOS
+    // -----------------------------
+    public enum Evento {
+        ALOJAMIENTOS,
+        LOGIN,
+        REGISTRO
     }
 }

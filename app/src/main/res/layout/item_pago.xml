@@ -1,41 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_margin="8dp"
     android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:padding="12dp">
+    android:layout_margin="10dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="5dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="14dp"
+        android:orientation="vertical">
 
+        <!-- ========================= -->
+        <!-- ALOJAMIENTO -->
+        <!-- ========================= -->
         <TextView
-            android:id="@+id/tvMonto"
-            android:text="Monto:"
-            android:textStyle="bold"
-            android:textSize="18sp"
+            android:id="@+id/tvAlojamiento"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Salón Los Aromosa"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
 
+        <!-- ========================= -->
+        <!-- QUIÉN PAGA / QUIÉN COBRA -->
+        <!-- ========================= -->
+        <TextView
+            android:id="@+id/tvPersona"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cliente: Juan Pérez"
+            android:textSize="13sp"
+            android:textColor="#444444"
+            android:layout_marginTop="4dp"/>
+
+        <!-- ========================= -->
+        <!-- RESERVA -->
+        <!-- ========================= -->
+        <TextView
+            android:id="@+id/tvFechas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20/12/2025 → 21/12/2025"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp"/>
+
+        <!-- ========================= -->
+        <!-- FECHA DEL PAGO -->
+        <!-- ========================= -->
         <TextView
             android:id="@+id/tvFecha"
-            android:text="Fecha:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="14/12/2025"
+            android:textSize="13sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp"/>
 
+        <!-- ========================= -->
+        <!-- MONTO -->
+        <!-- ========================= -->
         <TextView
-            android:id="@+id/tvMedio"
-            android:text="Medio:"
+            android:id="@+id/tvMonto"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="$40.000"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#00796B"
+            android:layout_marginTop="6dp"/>
 
+        <!-- ========================= -->
+        <!-- ESTADO DEL PAGO -->
+        <!-- ========================= -->
         <TextView
             android:id="@+id/tvEstado"
-            android:text="Estado:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Pendiente"
+            android:textSize="13sp"
+            android:textStyle="italic"
+            android:textColor="#FF9800"
+            android:layout_marginTop="4dp"/>
+
+        <!-- ========================= -->
+        <!-- BOTONES (SOLO PROPIETARIO) -->
+        <!-- ========================= -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="12dp">
+
+            <Button
+                android:id="@+id/btnRechazar"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Rechazar"
+                android:backgroundTint="#D32F2F"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:paddingHorizontal="14dp"/>
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnConfirmar"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Confirmar"
+                android:backgroundTint="#00796B"
+                android:textColor="@android:color/white"
+                android:visibility="gone"
+                android:paddingHorizontal="14dp"/>
+        </LinearLayout>
 
     </LinearLayout>
 

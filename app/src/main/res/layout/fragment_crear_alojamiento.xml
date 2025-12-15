@@ -8,8 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:spacing="10dp">
+        android:orientation="vertical">
 
         <!-- TÍTULO -->
         <EditText
@@ -18,16 +17,15 @@
             android:layout_height="wrap_content"
             android:hint="Título"
             android:inputType="text"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- TIPO DE ALOJAMIENTO -->
-        <EditText
-            android:id="@+id/etTipo"
+        <Spinner
+            android:id="@+id/spTipo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tipo (Cabaña, Casa, Salón...)"
-            android:inputType="text"
-            android:padding="10dp" />
+            android:layout_marginBottom="12dp" />
 
         <!-- DESCRIPCIÓN -->
         <EditText
@@ -37,7 +35,8 @@
             android:hint="Descripción"
             android:inputType="textMultiLine"
             android:minLines="3"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- DIRECCIÓN -->
         <EditText
@@ -45,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Dirección"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- PRECIO POR DÍA -->
         <EditText
@@ -54,7 +54,8 @@
             android:layout_height="wrap_content"
             android:hint="Precio por día"
             android:inputType="numberDecimal"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- CANTIDAD DE HUÉSPEDES -->
         <EditText
@@ -63,7 +64,8 @@
             android:layout_height="wrap_content"
             android:hint="Cantidad de huéspedes"
             android:inputType="number"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
         <!-- HABITACIONES -->
         <EditText
@@ -72,38 +74,30 @@
             android:layout_height="wrap_content"
             android:hint="Habitaciones"
             android:inputType="number"
-            android:padding="10dp" />
+            android:padding="10dp"
+            android:layout_marginBottom="16dp" />
 
-        <!-- SWITCHES DE SERVICIOS -->
+        <!-- SERVICIOS -->
         <Switch
             android:id="@+id/swPileta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pileta disponible" />
+            android:text="Pileta disponible"
+            android:layout_marginBottom="8dp" />
 
         <Switch
             android:id="@+id/swCochera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cochera disponible" />
+            android:text="Cochera disponible"
+            android:layout_marginBottom="16dp" />
 
         <!-- LOCALIDAD -->
-        <EditText
-            android:id="@+id/etLocalidad"
+        <Spinner
+            android:id="@+id/spLocalidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID Localidad"
-            android:inputType="number"
-            android:padding="10dp" />
-
-        <!-- PROPIETARIO -->
-        <EditText
-            android:id="@+id/etPropietario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ID Propietario"
-            android:inputType="number"
-            android:padding="10dp" />
+            android:layout_marginBottom="20dp" />
 
         <!-- BOTÓN SELECCIONAR IMÁGENES -->
         <Button
@@ -112,6 +106,7 @@
             android:layout_height="wrap_content"
             android:text="Seleccionar imágenes"
             android:padding="12dp"
+            android:layout_marginBottom="12dp"
             android:backgroundTint="@android:color/holo_blue_dark"
             android:textColor="@android:color/white" />
 
@@ -122,10 +117,11 @@
             android:layout_height="wrap_content"
             android:text="Crear alojamiento"
             android:padding="12dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="@android:color/holo_green_dark"
             android:textColor="@android:color/white" />
 
-        <!-- MENSAJE DEL VIEWMODEL -->
+        <!-- MENSAJE -->
         <TextView
             android:id="@+id/tvMensaje"
             android:layout_width="match_parent"
@@ -133,8 +129,8 @@
             android:text=""
             android:textSize="16sp"
             android:textColor="@android:color/holo_green_dark"
-            android:paddingTop="10dp"
-            android:paddingBottom="30dp" />
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp" />
 
     </LinearLayout>
 </ScrollView>

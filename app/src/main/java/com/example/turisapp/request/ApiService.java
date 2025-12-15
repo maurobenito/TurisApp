@@ -5,17 +5,20 @@ import com.example.turisapp.modelo.ActualizarUsuarioResponse;
 import com.example.turisapp.modelo.Alojamiento;
 import com.example.turisapp.modelo.CancelarResponse;
 import com.example.turisapp.modelo.Documentacion;
+import com.example.turisapp.modelo.GenericResponse;
 import com.example.turisapp.modelo.ImagenAlojamiento;
 import com.example.turisapp.modelo.Localidad;
 import com.example.turisapp.modelo.LoginResponse;
+import com.example.turisapp.modelo.NotificacionListaResponse;
 import com.example.turisapp.modelo.Pago;
+import com.example.turisapp.modelo.PagoListaResponse;
 import com.example.turisapp.modelo.PagoRequest;
 import com.example.turisapp.modelo.PagoResponse;
 import com.example.turisapp.modelo.PerfilResponse;
 import com.example.turisapp.modelo.Reserva;
 import com.example.turisapp.modelo.ReservaListaResponse;
 import com.example.turisapp.modelo.ReservaResponse;
-import com.example.turisapp.modelo.Usuario;
+import com.example.turisapp.modelo.UsuarioListaResponse;
 
 
 import java.util.List;
@@ -122,7 +125,11 @@ public interface ApiService {
     // ALOJAMIENTOS
     // =====================================================
     @GET("api/alojamiento/obtenerTodos.php")
-    Call<List<Alojamiento>> obtenerAlojamientos(@Header("Authorization") String token);
+    Call<List<Alojamiento>> obtenerAlojamientos(
+            @Header("Authorization") String token,
+            @Query("Rol") String rol,
+            @Query("UsuarioId") int usuarioId
+    );
 
     @GET("api/alojamiento/{id}")
     Call<Alojamiento> obtenerAlojamientoPorId(
@@ -154,12 +161,14 @@ public interface ApiService {
     Call<List<ImagenAlojamiento>> listarImagenesPorAlojamiento(
             @Query("AlojamientoId") int alojamientoId
     );
+
     @FormUrlEncoded
     @POST("api/alojamiento/eliminarImagen.php")
     Call<Void> eliminarImagen(
             @Header("Authorization") String token,
             @Field("Id") int imagenId
     );
+
     @FormUrlEncoded
     @POST("api/reserva/validarDisponibilidad.php")
     Call<ReservaResponse> validarDisponibilidad(
@@ -186,9 +195,9 @@ public interface ApiService {
     );
 
     @POST("api/alojamiento/eliminar.php")
-    Call<String> eliminarAlojamiento(
+    Call<Void> eliminarAlojamiento(
             @Header("Authorization") String token,
-            @Query("id") int id
+            @Query("Id") int alojamientoId
     );
 
 
@@ -203,8 +212,10 @@ public interface ApiService {
     Call<Localidad> crearLocalidad(
             @Field("nombre") String nombre
     );
+
     @GET("api/localidades/listar.php")
     Call<List<Localidad>> obtenerLocalidades(@Header("Authorization") String token);
+
     // EDITAR LOCALIDAD
     @FormUrlEncoded
     @POST("api/localidades/editar.php")
@@ -248,7 +259,7 @@ public interface ApiService {
     @GET("api/reserva/listarPorUsuario.php")
     Call<ReservaListaResponse> listarReservas(
             @Header("Authorization") String token,
-            @Query("ClienteId") int clienteId
+            @Query("UsuarioId") int usuarioId
     );
 
 
@@ -263,14 +274,93 @@ public interface ApiService {
 
     @GET("api/pago/pagosPorCliente.php")
     Call<List<Pago>> obtenerPagosCliente(
-            @Query("clienteId") int clienteId
+            @Header("Authorization") String token
     );
+
 
     @GET("api/pago/pagosPorPropietario.php")
     Call<List<Pago>> obtenerPagosPropietario(
-            @Query("propietarioId") int propietarioId
+            @Header("Authorization") String token
+    );
+
+    // =====================================================
+// LISTAR PAGOS (SEGÚN ROL POR TOKEN)
+// =====================================================
+    @GET("api/pago/listarPagos.php")
+    Call<PagoListaResponse> listarPagos(
+            @Header("Authorization") String token,
+            @Query("UsuarioId") int usuarioId
     );
 
 
+    @FormUrlEncoded
+    @POST("api/pago/crear.php")
+    Call<GenericResponse> registrarPago(
+            @Field("ReservaId") int reservaId,
+            @Field("Monto") double monto,
+            @Field("MedioDePago") String medio
+    );
+
+    @FormUrlEncoded
+    @POST("api/pago/confirmarPago.php")
+    Call<GenericResponse> confirmarPago(
+            @Field("ReservaId") int reservaId
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/pago/rechazarPago.php")
+    Call<Void> rechazarPago(
+            @Field("PagoId") int pagoId,
+            @Field("ReservaId") int reservaId
+    );
+// --------------------------------------------------
+// NOTIFICACIONES
+// --------------------------------------------------
+
+    @GET("api/notificacion/listarnoti.php")
+    Call<NotificacionListaResponse> listarNotificaciones(
+            @Query("UsuarioId") int usuarioId
+    );
+    @FormUrlEncoded
+    @POST("api/notificacion/marcarLeida.php")
+    Call<GenericResponse> marcarNotificacionLeida(
+            @Field("Id") int id,
+            @Field("UsuarioId") int usuarioId
+    );
+    @FormUrlEncoded
+    @POST("api/reserva/confirmarReserva.php")
+    Call<GenericResponse> confirmarReserva(@Field("ReservaId") int reservaId);
+
+    @FormUrlEncoded
+    @POST("api/reserva/rechazarReserva.php")
+    Call<GenericResponse> rechazarReserva(@Field("ReservaId") int reservaId);
+
+    @FormUrlEncoded
+    @POST("api/reserva/cancelarReserva.php")
+    Call<GenericResponse> cancelarReserva(@Field("Id") int reservaId);
+
+
+    @GET("api/reserva/listarPorUsuario.php")
+    Call<ReservaListaResponse> listarReservas(
+            @Query("Rol") String rol,
+            @Query("ClienteId") Integer clienteId,
+            @Query("UsuarioId") Integer usuarioId
+    );
+    @GET("api/usuarios/listarUsuarios.php")
+    Call<UsuarioListaResponse> listarUsuarios(
+            @Header("Authorization") String token
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/usuarios/eliminarUsuario.php")
+    Call<GenericResponse> eliminarUsuario(
+            @Header("Authorization") String token,
+            @Field("Id") int id
+    );
+
 
 }
+
+

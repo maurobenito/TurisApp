@@ -1,73 +1,109 @@
 package com.example.turisapp.modelo;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Pago implements Serializable {
 
-    private int id;
-    private int reservaId;
-    private String fechaPago;      // YYYY-MM-DD
-    private double monto;
-    private String medioDePago;    // Efectivo - Transferencia - Tarjeta - MercadoPago
-    private String estadoPago;     // Pendiente - Pagado
+    @SerializedName("Id")
+    private String id;
+
+    @SerializedName("ReservaId")
+    private String reservaId;
+
+    @SerializedName("FechaPago")
+    private String fechaPago;
+
+    @SerializedName("Monto")
+    private String monto;
+
+    @SerializedName("MedioDePago")
+    private String medioDePago;
+
+    @SerializedName("EstadoPago")
+    private String estadoPago;
+
+    // =====================================
+    // 🔹 CAMPOS EXTRA (JOINs)
+    // =====================================
+    @SerializedName("AlojamientoTitulo")
+    private String alojamientoTitulo;
+
+    @SerializedName("ClienteNombre")
+    private String clienteNombre;
+
+    @SerializedName("ClienteApellido")
+    private String clienteApellido;
+
+    @SerializedName("PropietarioNombre")
+    private String propietarioNombre;
+
+    @SerializedName("PropietarioApellido")
+    private String propietarioApellido;
+    @SerializedName("FechaInicio")
+    private String fechaInicio;
+
+    @SerializedName("FechaFin")
+    private String fechaFin;
+
+    public String getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
 
     public Pago() {
     }
 
-    public Pago(int id, int reservaId, String fechaPago, double monto, String medioDePago, String estadoPago) {
-        this.id = id;
-        this.reservaId = reservaId;
-        this.fechaPago = fechaPago;
-        this.monto = monto;
-        this.medioDePago = medioDePago;
-        this.estadoPago = estadoPago;
-    }
-
-    public int getId() {
+    // =====================================
+    // GETTERS EXISTENTES
+    // =====================================
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getReservaId() {
+    public String getReservaId() {
         return reservaId;
-    }
-
-    public void setReservaId(int reservaId) {
-        this.reservaId = reservaId;
     }
 
     public String getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(String fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
-    public double getMonto() {
+    public String getMonto() {
         return monto;
-    }
-
-    public void setMonto(double monto) {
-        this.monto = monto;
     }
 
     public String getMedioDePago() {
         return medioDePago;
     }
 
-    public void setMedioDePago(String medioDePago) {
-        this.medioDePago = medioDePago;
-    }
-
     public String getEstadoPago() {
         return estadoPago;
     }
 
-    public void setEstadoPago(String estadoPago) {
-        this.estadoPago = estadoPago;
+    // =====================================
+    // GETTERS NUEVOS (MINIMOS)
+    // =====================================
+    public String getAlojamientoTitulo() {
+        return alojamientoTitulo;
+    }
+
+    public String getClienteNombre() {
+        return clienteNombre;
+    }
+
+    public String getClienteApellido() {
+        return clienteApellido;
+    }
+
+    public String getPropietarioNombre() {
+        return propietarioNombre;
+    }
+
+    public String getPropietarioApellido() {
+        return propietarioApellido;
     }
 }

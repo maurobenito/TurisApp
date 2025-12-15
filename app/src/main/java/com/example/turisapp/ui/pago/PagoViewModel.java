@@ -1,15 +1,14 @@
 package com.example.turisapp.ui.pago;
 
 import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.turisapp.modelo.GenericResponse;
 import com.example.turisapp.modelo.Pago;
+import com.example.turisapp.modelo.PagoListaResponse;
 import com.example.turisapp.request.ApiClient;
 import com.example.turisapp.request.ApiService;
 
@@ -21,40 +20,113 @@ import retrofit2.Response;
 
 public class PagoViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<Pago>> listaPagos = new MutableLiveData<>();
+    private ApiService api;
 
-    public PagoViewModel(@NonNull Application application) {
-        super(application);
+    public MutableLiveData<List<Pago>> pagos = new MutableLiveData<>();
+    public MutableLiveData<String> mensaje = new MutableLiveData<>();
+
+    public PagoViewModel(@NonNull Application app) {
+        super(app);
+        api = ApiClient.getApiService();
     }
 
-    public LiveData<List<Pago>> getListaPagos() {
-        return listaPagos;
-    }
+    // ==================================================
+    // LISTAR PAGOS
+    // ==================================================
+    public void cargarPagos() {
 
-    public void obtenerPagos() {
-
+        int usuarioId = ApiClient.leerUsuarioId(getApplication());
         String token = ApiClient.leerToken(getApplication());
-        ApiService api = ApiClient.getApiService();
 
-        // 🔥 Igual que Alojamientos, pero llamando al endpoint de pagos del cliente
-        Call<List<Pago>> call = api.obtenerPagosCliente(
-                ApiClient.leerUsuarioId(getApplication())
-        );
+        if (token == null) {
+            mensaje.setValue("Usuario no autenticado");
+            return;
+        }
 
-        call.enqueue(new Callback<List<Pago>>() {
+        String auth = "Bearer " + token;
+
+        api.listarPagos(auth, usuarioId).enqueue(new Callback<PagoListaResponse>() {
             @Override
-            public void onResponse(Call<List<Pago>> call, Response<List<Pago>> response) {
+            public void onResponse(Call<PagoListaResponse> call,
+                                   Response<PagoListaResponse> resp) {
+
+                if (!resp.isSuccessful() || resp.body() == null) {
+                    mensaje.setValue("Error al obtener pagos");
+                    return;
+                }
+
+                if (!"OK".equals(resp.body().getStatus())) {
+                    mensaje.setValue("Error al obtener pagos");
+
+                    return;
+                }
+
+                pagos.setValue(resp.body().getPagos());
+            }
+
+            @Override
+            public void onFailure(Call<PagoListaResponse> call, Throwable t) {
+                mensaje.setValue("Fallo en la conexión");
+            }
+        });
+    }
+
+    // ==================================================
+    // CONFIRMAR PAGO (PROPIETARIO)
+    // ==================================================
+    public void confirmarPago(String reservaId) {
+
+        api.confirmarPago(Integer.parseInt(reservaId))
+                .enqueue(new Callback<GenericResponse>() {
+
+                    @Override
+                    public void onResponse(Call<GenericResponse> call,
+                                           Response<GenericResponse> response) {
+
+                        if (response.isSuccessful()
+                                && response.body() != null
+                                && "OK".equals(response.body().getStatus())) {
+
+                            mensaje.setValue("Pago confirmado");
+                            cargarPagos();
+
+                        } else {
+                            mensaje.setValue("Error al confirmar el pago");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<GenericResponse> call, Throwable t) {
+                        mensaje.setValue("Error de red al confirmar el pago");
+                    }
+                });
+    }
+
+    // ==================================================
+    // RECHAZAR PAGO (PROPIETARIO)
+    // ==================================================
+    public void rechazarPago(String pagoId, String reservaId) {
+
+        api.rechazarPago(
+                Integer.parseInt(pagoId),
+                Integer.parseInt(reservaId)
+        ).enqueue(new Callback<Void>() {
+
+            @Override
+            public void onResponse(Call<Void> call,
+                                   Response<Void> response) {
+
                 if (response.isSuccessful()) {
-                    listaPagos.postValue(response.body());
+                    mensaje.setValue("Pago rechazado");
+                    cargarPagos();
                 } else {
-                    Toast.makeText(getApplication(), "No se pudieron obtener pagos", Toast.LENGTH_LONG).show();
+                    mensaje.setValue("Error al rechazar el pago");
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Pago>> call, Throwable t) {
-                Log.e("PagoVM", "Error: " + t.getMessage());
-                Toast.makeText(getApplication(), "Error de conexión", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<Void> call, Throwable t) {
+                mensaje.setValue("Error de red al rechazar el pago");
             }
         });
     }

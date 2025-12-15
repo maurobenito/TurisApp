@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.turisapp.R;
 import com.example.turisapp.databinding.FragmentListarReservaBinding;
 import com.example.turisapp.modelo.Reserva;
+import com.example.turisapp.request.ApiClient;
 
 import java.util.ArrayList;
 
@@ -40,31 +41,76 @@ public class ListarReservaFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        String rol = ApiClient.leerRol(requireContext()); // Cliente / Propietario
+
         adapter = new ReservaAdapter(
                 requireContext(),
                 new ArrayList<>(),
                 new ReservaAdapter.OnReservaClick() {
 
-                    @Override
-                    public void onCancelar(int position, Reserva r) {
-                        vm.cancelarReserva(r);
-                    }
-
+                    // ----------------------------
+                    // COMÚN
+                    // ----------------------------
                     @Override
                     public void onVerDetalle(Reserva r) {
-                        // acción opcional
+                        // opcional
+                    }
+
+                    // ----------------------------
+                    // CLIENTE
+                    // ----------------------------
+                    @Override
+                    public void onModificar(int position, Reserva r) {
+                        Toast.makeText(requireContext(),
+                                "Modificar reserva " + r.getId(),
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onPagar(int position, Reserva r) {
                         mostrarDialogoPago(r);
                     }
-                }
+
+                    @Override
+                    public void onCancelar(int position, Reserva r) {
+                        vm.cancelarReserva(r.getId());
+                    }
+
+                    // ----------------------------
+                    // PROPIETARIO
+                    // ----------------------------
+                    @Override
+                    public void onConfirmar(int position, Reserva r) {
+                        vm.confirmarReserva(r.getId());
+                    }
+
+                    @Override
+                    public void onRechazar(int position, Reserva r) {
+                        new AlertDialog.Builder(requireContext())
+                                .setTitle("Rechazar reserva")
+                                .setMessage("¿Seguro que querés rechazar esta reserva?")
+                                .setPositiveButton("Sí", (d, w) ->
+                                        vm.rechazarReserva(r.getId()))
+                                .setNegativeButton("No", null)
+                                .show();
+                    }
+
+                    @Override
+                    public void onConfirmarPago(int position, Reserva r) {
+                        vm.confirmarPago(r.getId());
+                    }
+                },
+                rol
         );
 
-        binding.recyclerReservas.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.recyclerReservas.setLayoutManager(
+                new LinearLayoutManager(requireContext())
+        );
         binding.recyclerReservas.setAdapter(adapter);
 
+        // ----------------------------
+        // OBSERVERS
+        // ----------------------------
         vm.reservas.observe(getViewLifecycleOwner(), lista ->
                 adapter.setLista(lista)
         );
@@ -73,15 +119,11 @@ public class ListarReservaFragment extends Fragment {
                 Toast.makeText(requireContext(), m, Toast.LENGTH_SHORT).show()
         );
 
-        vm.cancelacionExitosa.observe(getViewLifecycleOwner(), ok ->
-                vm.cargarReservas()
-        );
-
         vm.cargarReservas();
     }
 
     // --------------------------------------------------------------------
-    // DIÁLOGO DE PAGO (TAMBIÉN SIN IF)
+    // DIÁLOGO DE PAGO
     // --------------------------------------------------------------------
     private void mostrarDialogoPago(Reserva r) {
 

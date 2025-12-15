@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.example.turisapp.R;
 import com.example.turisapp.databinding.FragmentReservaBinding;
 import com.example.turisapp.modelo.Alojamiento;
 
@@ -60,8 +61,14 @@ public class ReservaFragment extends Fragment {
             }
         });
 
-        vm.reservaExitosa.observe(getViewLifecycleOwner(),
-                ok -> Navigation.findNavController(view).popBackStack());
+        vm.reservaExitosa.observe(getViewLifecycleOwner(), ok -> {
+            androidx.navigation.NavOptions opts = new androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(R.id.mobile_navigation, false)
+                    .build();
+
+            Navigation.findNavController(view)
+                    .navigate(R.id.action_reservaFragment_to_alojamientoFragment, null, opts);
+        });
 
         binding.btnFechaInicio.setOnClickListener(v -> mostrarDatePickerInicio());
         binding.btnFechaFin.setOnClickListener(v -> mostrarDatePickerFin());

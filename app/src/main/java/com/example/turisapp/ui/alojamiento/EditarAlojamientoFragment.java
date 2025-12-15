@@ -1,9 +1,11 @@
+
 package com.example.turisapp.ui.alojamiento;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -41,6 +43,23 @@ public class EditarAlojamientoFragment extends Fragment {
         vm.cargarAlojamiento(getArguments());
 
         return binding.getRoot();
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        requireActivity()
+                .getOnBackPressedDispatcher()
+                .addCallback(getViewLifecycleOwner(),
+                        new androidx.activity.OnBackPressedCallback(true) {
+                            @Override
+                            public void handleOnBackPressed() {
+
+                                androidx.navigation.fragment.NavHostFragment
+                                        .findNavController(EditarAlojamientoFragment.this)
+                                        .navigate(R.id.listaAlojamientos);
+                            }
+                        });
     }
 
     private void observar() {
@@ -114,12 +133,35 @@ public class EditarAlojamientoFragment extends Fragment {
 
             vm.guardarTodo();
         });
+        vm.getMensaje().observe(getViewLifecycleOwner(), m -> {
+            if (m == null) return;
 
-        vm.getMensaje().observe(getViewLifecycleOwner(),
-                m -> android.widget.Toast
-                        .makeText(requireContext(), m, android.widget.Toast.LENGTH_SHORT)
-                        .show());
+            Toast.makeText(requireContext(), m, Toast.LENGTH_SHORT).show();
+
+            if (m.equals("Alojamiento actualizado")
+                    || m.equals("Alojamiento eliminado")) {
+
+                androidx.navigation.fragment.NavHostFragment
+                        .findNavController(this)
+                        .navigateUp();
+            }
+        });
+
+
+        binding.btnEliminarAlojamiento.setOnClickListener(v -> {
+
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Eliminar alojamiento")
+                    .setMessage("¿Seguro que desea eliminar este alojamiento?")
+                    .setPositiveButton("Eliminar", (dialog, which) -> {
+                        vm.eliminarAlojamiento();
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
+
     }
+
 
     private int parseInt(String n) {
         try { return Integer.parseInt(n); }

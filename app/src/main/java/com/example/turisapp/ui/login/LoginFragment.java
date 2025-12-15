@@ -45,12 +45,12 @@ public class LoginFragment extends Fragment {
 
         txtRegistro.setOnClickListener(v -> {
             Navigation.findNavController(v)
-                    .navigate(R.id.action_loginFragment_to_registroFragment);
+                    .navigate(R.id.registroFragment);
         });
         vm.getLoginOK().observe(getViewLifecycleOwner(), usuario -> {
 
             // Guarda datos del usuario
-            SharedPreferences sp = requireContext().getSharedPreferences("usuario.xml", Context.MODE_PRIVATE);
+            SharedPreferences sp = requireContext().getSharedPreferences("datos", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
 
             editor.putInt("id", usuario.getId());
@@ -71,7 +71,7 @@ public class LoginFragment extends Fragment {
 
             // Navegar al home SOLO UNA VEZ
             Navigation.findNavController(view)
-                    .navigate(R.id.nav_home);
+                    .navigate(R.id.action_loginFragment_to_alojamientosFragment);
         });
 
         // Manejo de error

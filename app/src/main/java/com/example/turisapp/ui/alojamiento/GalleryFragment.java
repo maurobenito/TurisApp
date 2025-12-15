@@ -41,7 +41,7 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onChanged(List<Alojamiento> alojamientos) {
                 AlojamientoAdapter adapter =
-                        new AlojamientoAdapter(alojamientos, getContext(), getLayoutInflater());
+                        new AlojamientoAdapter(alojamientos, requireContext());
 
                 GridLayoutManager glm = new GridLayoutManager(
                         getContext(),

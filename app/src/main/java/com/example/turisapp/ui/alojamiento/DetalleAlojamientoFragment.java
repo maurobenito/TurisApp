@@ -114,6 +114,7 @@ public class DetalleAlojamientoFragment extends Fragment {
 
         binding.btnAccion.setOnClickListener(v -> vm.onAccionClick());
 
+
         vm.navActionId.observe(getViewLifecycleOwner(), actionId -> {
             Bundle b = new Bundle();
             b.putSerializable("alojamiento", vm.alojamiento.getValue());
@@ -121,4 +122,5 @@ public class DetalleAlojamientoFragment extends Fragment {
                     .navigate(actionId, b);
         });
     }
+
 }

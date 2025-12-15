@@ -20,43 +20,58 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
     private Context context;
     private List<Reserva> lista;
     private OnReservaClick listener;
+    private String rol; // Cliente / Propietario / Admin
 
-
-    public ReservaAdapter(Context context, List<Reserva> lista, OnReservaClick listener) {
+    public ReservaAdapter(Context context,
+                          List<Reserva> lista,
+                          OnReservaClick listener,
+                          String rol) {
         this.context = context;
         this.lista = lista;
         this.listener = listener;
+        this.rol = rol;
     }
 
+    // ======================================================
+    // CALLBACKS
+    // ======================================================
     public interface OnReservaClick {
-        void onCancelar(int position, Reserva r);
         void onVerDetalle(Reserva r);
+        void onModificar(int position, Reserva r);
         void onPagar(int position, Reserva r);
+        void onCancelar(int position, Reserva r);
+        void onConfirmar(int position, Reserva r);
+        void onRechazar(int position, Reserva r);
+        void onConfirmarPago(int position, Reserva r);
     }
-
 
     public void setLista(List<Reserva> nuevaLista) {
         this.lista = nuevaLista;
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    // ======================================================
+    // VIEW HOLDER
+    // ======================================================
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvTitulo, tvFechas, tvMonto, tvEstado;
-        Button btnCancelar, btnPagar;
+        TextView tvTitulo, tvLocalidad, tvPersona, tvFechas, tvMonto, tvEstado;
+        Button btnAccion, btnSecundario;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitulo = itemView.findViewById(R.id.tvTitulo);
-            tvFechas = itemView.findViewById(R.id.tvFechas);
-            tvMonto = itemView.findViewById(R.id.tvMonto);
-            tvEstado = itemView.findViewById(R.id.tvEstado);
-            btnCancelar = itemView.findViewById(R.id.btnCancelar);
-            btnPagar = itemView.findViewById(R.id.btnPagar);
+            tvTitulo     = itemView.findViewById(R.id.tvTitulo);
+            tvLocalidad  = itemView.findViewById(R.id.tvLocalidad);
+            tvPersona    = itemView.findViewById(R.id.tvPersona);
+            tvFechas     = itemView.findViewById(R.id.tvFechas);
+            tvMonto      = itemView.findViewById(R.id.tvMonto);
+            tvEstado     = itemView.findViewById(R.id.tvEstado);
+
+            btnAccion    = itemView.findViewById(R.id.btnPagar);
+            btnSecundario= itemView.findViewById(R.id.btnCancelar);
         }
     }
-
 
     @NonNull
     @Override
@@ -66,51 +81,160 @@ public class ReservaAdapter extends RecyclerView.Adapter<ReservaAdapter.ViewHold
         return new ViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder h, int position) {
+
         Reserva r = lista.get(position);
 
-        // Título del Alojamiento
-        holder.tvTitulo.setText(r.getAlojamientoTitulo());
+        // --------------------------------------------------
+        // NORMALIZAR ESTADO
+        // --------------------------------------------------
+        String estado = r.getEstado() != null
+                ? r.getEstado().trim().replace(" ", "")
+                : "";
 
-        // Fechas
-        holder.tvFechas.setText(r.getFechaInicio() + " → " + r.getFechaFin());
+        // --------------------------------------------------
+        // DATOS BASE
+        // --------------------------------------------------
+        h.tvTitulo.setText(r.getAlojamientoTitulo());
+        h.tvLocalidad.setText(r.getLocalidadNombre());
+        h.tvFechas.setText(r.getFechaInicio() + " → " + r.getFechaFin());
+        h.tvMonto.setText("$" + r.getMontoTotal());
+        h.tvEstado.setText(r.getEstado());
 
-        // Monto
-        holder.tvMonto.setText("Monto: $" + r.getMontoTotal());
+        // --------------------------------------------------
+        // PERSONA SEGÚN ROL ⭐
+        // --------------------------------------------------
+        if ("Admin".equalsIgnoreCase(rol)) {
+            h.tvPersona.setText(
+                    "Cliente: " + r.getNombreCliente()
+                            + " | Propietario: " + r.getNombrePropietario()
+            );
+            h.tvPersona.setVisibility(View.VISIBLE);
 
-        // Estado
-        holder.tvEstado.setText("Estado: " + r.getEstado());
+        } else if ("Cliente".equalsIgnoreCase(rol)) {
+            h.tvPersona.setText("Propietario: " + r.getNombrePropietario());
+            h.tvPersona.setVisibility(View.VISIBLE);
 
-        // Si ya está pagado, deshabilitar botón
-        if ("Pagado".equalsIgnoreCase(r.getEstado())) {
-            holder.btnPagar.setEnabled(false);
-            holder.btnPagar.setText("Pagado");
-            holder.btnPagar.setAlpha(0.5f);
+        } else if ("Propietario".equalsIgnoreCase(rol)) {
+            h.tvPersona.setText("Cliente: " + r.getNombreCliente());
+            h.tvPersona.setVisibility(View.VISIBLE);
+
         } else {
-            holder.btnPagar.setEnabled(true);
-            holder.btnPagar.setText("Pagar");
-            holder.btnPagar.setAlpha(1f);
+            h.tvPersona.setVisibility(View.GONE);
         }
 
-        // EVENTOS
-        holder.btnCancelar.setOnClickListener(v ->
-                listener.onCancelar(position, r)
-        );
 
-        holder.btnPagar.setOnClickListener(v ->
-                listener.onPagar(position, r)
-        );
+        // --------------------------------------------------
+        // RESET BOTONES
+        // --------------------------------------------------
+        h.btnAccion.setVisibility(View.GONE);
+        h.btnSecundario.setVisibility(View.GONE);
+        h.btnAccion.setEnabled(true);
+        h.btnAccion.setAlpha(1f);
 
-        // Click en toda la tarjeta → ver detalle (opcional)
-        holder.itemView.setOnClickListener(v ->
-                listener.onVerDetalle(r)
-        );
+        // ==================================================
+        // CLIENTE
+        // ==================================================
+        if ("Cliente".equalsIgnoreCase(rol)) {
+
+            switch (estado) {
+
+                case "PendienteConfirmacion":
+                    h.btnAccion.setVisibility(View.VISIBLE);
+                    h.btnAccion.setText("Modificar");
+
+                    h.btnSecundario.setVisibility(View.VISIBLE);
+                    h.btnSecundario.setText("Cancelar");
+                    break;
+
+                case "PendientePago":
+                    h.btnAccion.setVisibility(View.VISIBLE);
+                    h.btnAccion.setText("Pagar");
+
+                    h.btnSecundario.setVisibility(View.VISIBLE);
+                    h.btnSecundario.setText("Cancelar");
+                    break;
+
+                case "Pagada":
+                    h.btnAccion.setVisibility(View.VISIBLE);
+                    h.btnAccion.setText("Pagado");
+                    h.btnAccion.setEnabled(false);
+                    h.btnAccion.setAlpha(0.5f);
+                    break;
+            }
+        }
+
+        // ==================================================
+        // PROPIETARIO
+        // ==================================================
+        else if ("Propietario".equalsIgnoreCase(rol)) {
+
+            switch (estado) {
+
+                case "PendienteConfirmacion":
+                    h.btnAccion.setVisibility(View.VISIBLE);
+                    h.btnAccion.setText("Confirmar");
+
+                    h.btnSecundario.setVisibility(View.VISIBLE);
+                    h.btnSecundario.setText("Rechazar");
+                    break;
+
+                case "PendientePago":
+                    h.btnAccion.setVisibility(View.VISIBLE);
+                    h.btnAccion.setText("Confirmar pago");
+                    break;
+            }
+        }
+
+        // --------------------------------------------------
+        // CLICK BOTÓN PRINCIPAL
+        // --------------------------------------------------
+        h.btnAccion.setOnClickListener(v -> {
+
+            String txt = h.btnAccion.getText().toString();
+
+            if ("Cliente".equalsIgnoreCase(rol)) {
+
+                if ("Modificar".equals(txt)) {
+                    listener.onModificar(position, r);
+
+                } else if ("Pagar".equals(txt)) {
+                    listener.onPagar(position, r);
+                }
+
+            } else if ("Propietario".equalsIgnoreCase(rol)) {
+
+                if ("Confirmar".equals(txt)) {
+                    listener.onConfirmar(position, r);
+
+                } else if ("Confirmar pago".equals(txt)) {
+                    listener.onConfirmarPago(position, r);
+                }
+            }
+        });
+
+        // --------------------------------------------------
+        // CLICK BOTÓN SECUNDARIO
+        // --------------------------------------------------
+        h.btnSecundario.setOnClickListener(v -> {
+
+            String txt = h.btnSecundario.getText().toString();
+
+            if ("Cancelar".equals(txt)) {
+                listener.onCancelar(position, r);
+
+            } else if ("Rechazar".equals(txt)) {
+                listener.onRechazar(position, r);
+            }
+        });
+
+        // Click en la tarjeta
+        h.itemView.setOnClickListener(v -> listener.onVerDetalle(r));
     }
 
     @Override
     public int getItemCount() {
-        return lista.size();
+        return lista != null ? lista.size() : 0;
     }
 }

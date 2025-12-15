@@ -101,7 +101,7 @@ public class PerfilFragment extends Fragment {
         binding.spRol.setSelection(vm.getIndexRol(u.getRol()));
         binding.spEstado.setSelection(vm.getIndexEstado(u.getEstado()));
 
-        String url = "http://192.168.1.7/turisapp/api/uploads/avatars/" + u.getAvatar();
+        String url = "http://192.168.100.7/turisapp/api/uploads/avatars/" + u.getAvatar();
 
         Glide.with(this)
                 .load(url)

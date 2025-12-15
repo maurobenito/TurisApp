@@ -1,3 +1,4 @@
+
 package com.example.turisapp.ui.reserva;
 
 import android.app.Application;
@@ -141,9 +142,9 @@ public class ReservaViewModel extends AndroidViewModel {
 
 
 
-            public void onFailure(Call<ReservaResponse> call, Throwable t) {
-                // silencioso, no molestamos al usuario
-            }
+    public void onFailure(Call<ReservaResponse> call, Throwable t) {
+        // silencioso, no molestamos al usuario
+    }
 
 
     public void confirmarReserva() {

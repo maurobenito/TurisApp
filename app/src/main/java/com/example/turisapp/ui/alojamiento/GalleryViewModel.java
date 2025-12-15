@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.turisapp.modelo.Alojamiento;
+import com.example.turisapp.modelo.Usuario;
 import com.example.turisapp.request.ApiClient;
 import com.example.turisapp.request.ApiService;
 
@@ -32,26 +33,45 @@ public class GalleryViewModel extends AndroidViewModel {
     }
 
     public void obtenerAlojamientos() {
+
         String token = ApiClient.leerToken(getApplication());
+        int usuarioId = ApiClient.leerUsuarioId(getApplication());
+        String rol = ApiClient.leerRol(getApplication());
+
         ApiService api = ApiClient.getApiService();
 
-        Call<List<Alojamiento>> call = api.obtenerAlojamientos("Bearer " + token);
+        Call<List<Alojamiento>> call = api.obtenerAlojamientos(
+                "Bearer " + token,
+                rol,
+                usuarioId
+        );
 
         call.enqueue(new Callback<List<Alojamiento>>() {
             @Override
-            public void onResponse(Call<List<Alojamiento>> call, Response<List<Alojamiento>> response) {
-                if (response.isSuccessful()) {
+            public void onResponse(Call<List<Alojamiento>> call,
+                                   Response<List<Alojamiento>> response) {
+
+                if (response.isSuccessful() && response.body() != null) {
                     listaAlojamientos.postValue(response.body());
                 } else {
-                    Toast.makeText(getApplication(), "No se pudieron obtener alojamientos", Toast.LENGTH_LONG).show();
+                    Toast.makeText(
+                            getApplication(),
+                            "No se pudieron obtener alojamientos",
+                            Toast.LENGTH_LONG
+                    ).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Alojamiento>> call, Throwable t) {
                 Log.e("AlojamientoVM", "Error: " + t.getMessage());
-                Toast.makeText(getApplication(), "Error de conexión", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        getApplication(),
+                        "Error de conexión",
+                        Toast.LENGTH_LONG
+                ).show();
             }
         });
     }
+
 }

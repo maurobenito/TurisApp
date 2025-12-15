@@ -1,19 +1,41 @@
 package com.example.turisapp.ui.slideshow;
 
-import androidx.lifecycle.LiveData;
+import android.app.Application;
+import android.content.SharedPreferences;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class SlideshowViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<String> mText;
+    // Notifica cuando el logout terminó
+    private final MutableLiveData<Boolean> logoutOk = new MutableLiveData<>();
 
-    public SlideshowViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+    public SlideshowViewModel(@NonNull Application application) {
+        super(application);
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<Boolean> getLogoutOk() {
+        return logoutOk;
+    }
+
+    // --------------------------------------------------
+    // LOGOUT
+    // --------------------------------------------------
+    public void cerrarSesion() {
+
+        // 🔹 Borrar token
+        SharedPreferences spToken =
+                getApplication().getSharedPreferences("token.xml", 0);
+        spToken.edit().clear().apply();
+
+        // 🔹 Borrar datos usuario
+        SharedPreferences spUsuario =
+                getApplication().getSharedPreferences("usuario.xml", 0);
+        spUsuario.edit().clear().apply();
+
+        // 🔹 Notificar al Fragment
+        logoutOk.setValue(true);
     }
 }
